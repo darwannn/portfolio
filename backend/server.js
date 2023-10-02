@@ -1,6 +1,6 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const mg = require('mailgun-js');
+const express = require("express");
+const dotenv = require("dotenv");
+const mg = require("mailgun-js");
 
 dotenv.config();
 
@@ -14,8 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const myemail = "darwinsanluis.ramos14@gmail.com";
-app.post('/api/email', (req, res) => {
+const myemail = process.env.MY_EMAIL;
+app.post("/api/email", (req, res) => {
   const { name, email, subject, message } = req.body;
   mailgun()
     .messages()
@@ -29,10 +29,10 @@ app.post('/api/email', (req, res) => {
       (error, body) => {
         if (error) {
           console.log(error);
-          res.status(500).send({ message: 'Error in sending email' });
+          res.status(500).send({ message: "Error in sending email" });
         } else {
           console.log(body);
-          res.send({ message: 'Email sent successfully' });
+          res.send({ message: "Email sent successfully" });
         }
       }
     );
@@ -40,5 +40,5 @@ app.post('/api/email', (req, res) => {
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
-  console.log(`serve at http://localhost:${port}`);
+  console.log(`BACKEND RUNNING...`);
 });
