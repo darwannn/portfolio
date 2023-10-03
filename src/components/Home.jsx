@@ -43,9 +43,8 @@ function Home() {
               DARWIN RAMOS
             </div>
             <div className="mt-2 mb-4 text-2xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              ornare mollis tellus, eget feugiat nulla cursus sit amet. Quisque
-              ut tellus in velit finibus malesuada tempus a lacus.
+              I am a 4th-year BS Information Technology student at Bulacan State
+              University, pursuing a career as a full-stack web developer.
             </div>
             <a
               href="resume"
