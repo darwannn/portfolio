@@ -42,9 +42,12 @@ function Contact() {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         setSubmitting(true);
-        const { data } = await axios.post(`/api/email`, {
-          ...values,
-        });
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_PROXY}/api/email`,
+          {
+            ...values,
+          }
+        );
 
         console.log(data);
         if (data.success) toast.success(data.message);
