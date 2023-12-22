@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-scroll";
+
 function Navbar() {
   return (
     <nav
@@ -8,7 +9,7 @@ function Navbar() {
     >
       <ul className="flex justify-center md:justify-end md:mx-5 lg:justify-end  lg:mx-5 xl:justify-end xl:mx-5 ">
         <li className="mx-2 hover:cursor-pointer">
-          <Link to="home" spy={true} smooth={true} offset={0} duration={500}>
+          <Link to="home" spy={true} smooth={true} offset={-100} duration={500}>
             Home
           </Link>
         </li>

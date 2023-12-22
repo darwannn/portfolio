@@ -1,139 +1,173 @@
+import React, { useEffect, useRef } from "react";
 import axios from "axios";
-import React, { useState /* , useRef */ } from "react";
-import {
-  FaPhone,
-  FaFacebookMessenger,
-  /*   FaGithub, */
-  FaEnvelope,
-} from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Banner from "./Banner";
-/* import { scrollPosition } from './functions.js'; */
+import { FaPhone, FaFacebookMessenger, FaEnvelope } from "react-icons/fa";
+import { toast } from "react-toastify";
+
 import { RiLoader4Line } from "react-icons/ri";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+import Banner from "./Banner";
+
 function Contact() {
-  /* const textRef = useRef(null); */
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const containerRef = useRef(null);
+  const contactRef = useRef(null);
 
-  /* useEffect(() => { window.addEventListener("scroll", () => {textRef.current.style.paddingLeft = `${scrollPosition(700)}px`;});}); */
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    console.log("click");
+  useEffect(() => {
+    // const handleMouseMove = (e) => {
+    //   let ivalueX = (e.pageX * -1) / 200;
+    //   let ivalueY = (e.pageY * -1) / 200;
+    //   contactRef.current.style.transform = `translate3d(${ivalueX}px, ${ivalueY}px, 0)`;
+    // };
+    // if (containerRef.current) {
+    //   containerRef.current.addEventListener("mousemove", handleMouseMove);
+    // }
+  }, []);
 
-    if (!name || !email || !subject || !message) {
-      return toast.error("All fields are required.");
-    }
-    try {
-      setLoading(true);
-      const { data } = await axios.post(`/api/email`, {
-        name,
-        email,
-        subject,
-        message,
-      });
-      setLoading(false);
-      toast.success(data.message);
-    } catch (err) {
-      setLoading(false);
-      toast.error(
-        err.response && err.response.data.message
-          ? err.response.data.message
-          : err.message
-      );
-    }
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("This field is required"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("This field is required"),
+      subject: Yup.string().required("This field is required"),
+      message: Yup.string().required("This field is required"),
+    }),
+    onSubmit: async (values, { setSubmitting, resetForm }) => {
+      try {
+        setSubmitting(true);
+        const { data } = await axios.post(`/api/email`, {
+          ...values,
+        });
+
+        console.log(data);
+        if (data.success) toast.success(data.message);
+        resetForm();
+      } catch (err) {
+        if (err.response && err.response.data && err.response.data.errors) {
+          const { errors } = err.response.data;
+          formik.setErrors(errors);
+        } else {
+          toast.error("An error occurred");
+        }
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
   return (
     <div id="contact">
-      <Banner
-        text="Contact"
-        /* image={meImage} */ scrollStart="1800"
-        position="500"
-      />
-      <div className="contact flex justify-center relative background-blue overflow-hidden -mt-16 ">
-        {/* <div className="absolute font-bold leading-tight text-blue bottom-0 z-0" id="text" style={{fontSize: "24rem",marginBottom:"-100px",marginLeft:"-1000px"}} ref={textRef}>Contact</div> */}
-        <div className="relative max-w-screen-md mx-5 mb-24  p-10 bg-white rounded-xl z-10">
-          <ToastContainer position="bottom-right" limit={1} />
-          {/*   <ToastContainer position="bottom-right"  progressClassName="toastProgress"
-  bodyClassName="toastBody" limit={1} /> */}
+      <Banner text="Contact" position="50% 180%" />
+      <div
+        className="contact flex justify-center relative background-blue "
+        ref={containerRef}
+      >
+        <div
+          className="relative max-w-screen-md mx-5 mb-24  p-10 bg-white rounded-xl z-10 transition-all duration-200 ease-in-out"
+          ref={contactRef}
+        >
           <p className="text-center w-1/2 m-auto leading-tight mt-3 mb-10">
-            I’m open to new projects,
-            <br />
-            feel free to send me a message.
+            I'm currently not open to new projects, but feel free to send me a
+            message.
           </p>
 
-          <form className="w-full" onSubmit={submitHandler}>
+          <form className="w-full" onSubmit={formik.handleSubmit}>
             <div className="flex flex-wrap">
               <div className="w-full md:w-1/2 md:pr-2 lg:pr-2 xl:pr-2 mb-3">
-                {/*  <label className="font-bold" htmlFor="form-name">
-              Name
-            </label> */}
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border-blue bg-gray-100 text-black border border-gray-100 rounded  focus:outline-none  "
+                  className={`w-full px-3 py-2 border-blue bg-gray-100 text-black border  rounded  transition-all duration-200 focus:outline-none ${
+                    formik.touched.name && formik.errors.name
+                      ? "border-red-400"
+                      : "border-gray-100"
+                  }`}
                   id="form-name"
                   placeholder="Name"
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
+                  name="name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.name}
                 />
+                <div className="text-red-400 text-sm">
+                  {formik.touched.name && formik.errors.name}
+                </div>
               </div>
 
               <div className="w-full md:w-1/2 md:pl-2 lg:pl-2 xl:pl-2  mb-3">
-                {/* <label className="font-bold" htmlFor="form-email">
-              Email Address
-            </label> */}
                 <input
                   type="email"
-                  className="w-full px-3 py-2 bg-gray-100 text-black border border-gray-100 rounded  focus:outline-none  "
+                  className={`w-full px-3 py-2 border-blue bg-gray-100 text-black border  rounded  transition-all duration-200 focus:outline-none ${
+                    formik.touched.email && formik.errors.email
+                      ? "border-red-400"
+                      : "border-gray-100"
+                  }`}
                   id="form-email"
+                  name="email"
                   placeholder="Email Address"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
                 />
+                <div className="text-red-400 text-sm">
+                  {formik.touched.email && formik.errors.email}
+                </div>
               </div>
             </div>
 
             <div className="w-full mb-3">
-              {/*       <label className="font-bold " htmlFor="form-subject">Subject
-          </label> */}
               <input
                 type="text"
-                className="w-full px-3 py-2 bg-gray-100 text-black border border-gray-100 rounded  focus:outline-none  "
+                className={`w-full px-3 py-2 border-blue bg-gray-100 text-black border  rounded  transition-all duration-200 focus:outline-none ${
+                  formik.touched.subject && formik.errors.subject
+                    ? "border-red-400"
+                    : "border-gray-100"
+                }`}
                 id="form-subject"
+                name="subject"
                 placeholder="Subject"
-                onChange={(e) => {
-                  setSubject(e.target.value);
-                }}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.subject}
               />
+              <div className="text-red-400 text-sm">
+                {formik.touched.subject && formik.errors.subject}
+              </div>
             </div>
 
             <div className="w-full mb-3">
-              {/*  <label className="font-bold" htmlFor="form-message">Message
-          </label> */}
               <textarea
                 rows="8"
-                className=" w-full px-3 py-2 bg-gray-100 text-black border border-gray-100 rounded  focus:outline-none  "
+                className={`w-full px-3 py-2 border-blue bg-gray-100 text-black border  rounded  transition-all duration-200 focus:outline-none ${
+                  formik.touched.message && formik.errors.message
+                    ? "border-red-400"
+                    : "border-gray-100"
+                }`}
                 id="form-message"
+                name="message"
                 placeholder="Message"
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                }}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.message}
               ></textarea>
+              <div className="text-red-400 text-sm">
+                {formik.touched.message && formik.errors.message}
+              </div>
             </div>
 
             <button
-              disabled={loading}
+              disabled={formik.isSubmitting}
               type="submit"
-              className="w-full h-9 button-blue text-white font-bold px-4  rounded"
+              className="w-full h-9 button-blue text-white font-bold px-4  rounded hover:bg-[#2B2B4F] transition-all duration-200"
             >
-              {loading ? (
-                <RiLoader4Line className="animate-spin font-bold text m-auto px-1" />
+              {formik.isSubmitting ? (
+                <RiLoader4Line className="animate-spin font-bold text-3xl m-auto px-1" />
               ) : (
                 "Submit"
               )}
@@ -154,20 +188,20 @@ function Contact() {
                 style={{ left: "45%" }}
               />
 
-              <div className="relative">
+              <div className="relative hover:-translate-y-1 transition-all duration-200">
                 <div className="relative z-10">
                   <div className="">Messenger</div>
                   <a
-                    href="https://www.messenger.com/darwannn"
+                    href="https://www.messenger.com/t/100083350730989"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    <div className="icon-blue text-xl">/darwannn</div>
+                    <div className="icon-blue text-xl">Darwin S. Ramos</div>
                   </a>
                 </div>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative hover:-translate-y-1 transition-all duration-200">
               <FaEnvelope
                 className="absolute inset-center icon-inset text-7xl text-neutral-100 z-0"
                 style={{ left: "45%" }}
@@ -184,7 +218,7 @@ function Contact() {
               </div>
             </div>
 
-            <div className="relative">
+            <div className="relative hover:-translate-y-1 transition-all duration-200">
               <FaPhone
                 className="absolute inset-center icon-inset text-7xl text-neutral-100 z-0"
                 style={{ left: "45%" }}

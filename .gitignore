@@ -1,0 +1,7 @@
+/backend/.pnp
+/backend.pnp.js
+/backend/node_modules
+backend/.env
+coverage
+build
+node_modules

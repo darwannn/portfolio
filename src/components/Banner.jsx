@@ -1,36 +1,30 @@
 import React, { useRef, useEffect } from "react";
 
 function Banner({ text, image, scrollStart, position }) {
-  const textRef = useRef(null);
   const imageRef = useRef(null);
 
-  const scrollPosition = (scrollStart) => {
-    let scrollValue = window.scrollY;
-    if (scrollValue >= scrollStart) {
-      return scrollValue - scrollStart;
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      textRef.current.style.paddingLeft = `${
-        scrollPosition(scrollStart) / 2
-      }px`;
-      if (window.scrollY <= 800) {
+    const scrollPosition = (scrollStart) => {
+      let scrollValue = window.scrollY;
+      if (scrollValue >= scrollStart) {
+        return scrollValue - scrollStart;
+      }
+      return 0;
+    };
+
+    const handleScroll = () => {
+      if (imageRef.current && window.scrollY <= 800) {
         imageRef.current.style.paddingBottom = `${
           scrollPosition(scrollStart - 100) / 2
         }px`;
       }
-      /* if (window.scrollY <= 400) {
-        imageRef.current.style.paddingBottom = `${
-          scrollPosition(scrollStart - 100) / 2
-        }px`;
-      } */
-    });
-  });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+  }, [scrollStart]);
 
   return (
-    <div className="relative ">
+    <div className="relative select-none">
       {image && (
         <img
           src={image}
@@ -39,11 +33,10 @@ function Banner({ text, image, scrollStart, position }) {
           className="inset-center absolute z-20 w-[80%] sm:w-[70%] md:w-[600px] pt-[420px] md:pt-[200px]"
         />
       )}
-      <div className="relative overflow-hidden background-blue h-[24rem]">
+      <div className="relative overflow-hidden  h-[300px]  flex justify-center items-center background-blue">
         <div
-          className="absolute font-bold leading-tight text-blue uppercase z-10 text-[24rem]"
-          ref={textRef}
-          style={{ left: `-${position}px` }}
+          className="font-bold leading-tight text-blue uppercase z-10 text-[18vw] md:text-[13vw] transition-all"
+          style={{ animation: "float 4s ease-in-out infinite" }}
         >
           {text}
         </div>

@@ -1,10 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import {
   FaPhone,
   FaFacebookMessenger,
   FaGithub,
   FaEnvelope,
 } from "react-icons/fa";
+
 function Home() {
   return (
     <div
@@ -16,24 +19,24 @@ function Home() {
         <div className="flex flex-col-reverse lg:flex-row xl:flex-row relative z-50">
           <div className="flex flex-row lg:flex-col xl:flex-col justify-center mt-10 lg:m-0 xl:m-0  gap-6 text-3xl">
             <a
-              href="https://www.messenger.com/darwannn"
+              href="https://www.messenger.com/t/100083350730989"
               target="_blank"
               rel="noreferrer"
             >
-              <FaFacebookMessenger className="icon-blue" />
+              <FaFacebookMessenger className="icon-blue hover:text-[#1d4dab] transition-all duration-200" />
             </a>
             <a href="tel:09395372592">
-              <FaPhone className="icon-blue" />
+              <FaPhone className="icon-blue hover:text-[#1d4dab] transition-all duration-200" />
             </a>
             <a href="mailto:darwinsanluis.ramos14@gmail.com">
-              <FaEnvelope className="icon-blue" />
+              <FaEnvelope className="icon-blue hover:text-[#1d4dab] transition-all duration-200" />
             </a>
             <a
               href="https://github.com/darwannn"
               target="_blank"
               rel="noreferrer"
             >
-              <FaGithub className="icon-blue" />
+              <FaGithub className="icon-blue hover:text-[#1d4dab] transition-all duration-200" />
             </a>
           </div>
 
@@ -46,14 +49,13 @@ function Home() {
               I am a 4th-year BS Information Technology student at Bulacan State
               University, pursuing a career as a full-stack web developer.
             </div>
-            <a
-              href="resume"
+            <Link
+              to={"/resume"}
               target="_blank"
-              rel="noreferrer"
-              className="btn rounded-md px-10 py-2 w-40 button-blue"
+              className="btn rounded-md px-10 py-2 w-40 button-blue font-semibold hover:bg-[#1d4dab] transition-all duration-200"
             >
               RESUME
-            </a>
+            </Link>
           </div>
         </div>
       </div>

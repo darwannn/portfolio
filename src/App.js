@@ -1,3 +1,6 @@
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./App.css";
 
 import Navbar from "./components/Navbar";
@@ -8,9 +11,13 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
+import "./assets/css/lightgallery.css";
+import "./assets/css/swiper.css";
+
 function App() {
   return (
     <>
+      <ToastContainer position="bottom-right" limit={1} />
       <Navbar />
       <Home />
       <About />
