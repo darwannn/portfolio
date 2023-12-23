@@ -43,7 +43,8 @@ function Contact() {
       try {
         setSubmitting(true);
         const { data } = await axios.post(
-          `${process.env.REACT_APP_PROXY}/api/email`,
+          // `${process.env.REACT_APP_PROXY}/api/email`,
+          `/api/email`,
           {
             ...values,
           }
