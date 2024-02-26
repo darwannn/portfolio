@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-scroll";
+// import { Link } from "react-scroll";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -8,44 +9,49 @@ function Navbar() {
       style={{ zIndex: "1000" }}
     >
       <ul className="flex justify-center md:justify-end md:mx-5 lg:justify-end  lg:mx-5 xl:justify-end xl:mx-5 ">
-        <li className="mx-2 hover:cursor-pointer">
-          <Link to="home" spy={true} smooth={true} offset={-100} duration={500}>
-            Home
-          </Link>
-        </li>
-        <li className="mx-2 hover:cursor-pointer">
-          <Link
-            to="about"
-            spy={true}
-            smooth={true}
-            offset={-260}
-            duration={500}
-          >
-            About
-          </Link>
-        </li>
-        <li className="mx-2 hover:cursor-pointer">
-          <Link
-            to="projects"
-            spy={true}
-            smooth={true}
-            offset={-50}
-            duration={500}
-          >
-            Projects
-          </Link>
-        </li>
-        <li className="ms-4 hover:cursor-pointer">
-          <Link
-            to="contact"
-            spy={true}
-            smooth={true}
-            offset={-50}
-            duration={500}
-          >
-            Contact
-          </Link>
-        </li>
+        <NavLink
+          className={({ isActive }) =>
+            `${
+              isActive ? "text-black" : "text-gray-500"
+            } mx-2 hover:cursor-pointer`
+          }
+          to="/"
+        >
+          Home
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) =>
+            `${
+              isActive ? "text-black" : "text-gray-500"
+            } mx-2 hover:cursor-pointer`
+          }
+          to="/about"
+        >
+          About
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) =>
+            `${
+              isActive ? "text-black" : "text-gray-500"
+            } mx-2 hover:cursor-pointer`
+          }
+          to="/projects"
+        >
+          Projects
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) =>
+            `${
+              isActive ? "text-black" : "text-gray-500"
+            } mx-2 hover:cursor-pointer`
+          }
+          to="/contact"
+        >
+          Contact
+        </NavLink>
       </ul>
     </nav>
   );

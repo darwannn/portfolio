@@ -33,7 +33,7 @@ function Banner({ text, image, scrollStart, position }) {
           className="inset-center absolute z-20 w-[80%] sm:w-[70%] md:w-[600px] pt-[420px] md:pt-[200px]"
         />
       )}
-      <div className="relative overflow-hidden  h-[300px]  flex justify-center items-center background-blue">
+      <div className="relative overflow-hidden  h-[400px]  flex justify-center items-center background-blue">
         <div
           className="font-bold leading-tight text-blue uppercase z-10 text-[18vw] md:text-[13vw] transition-all"
           style={{ animation: "float 4s ease-in-out infinite" }}

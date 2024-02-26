@@ -20,7 +20,7 @@ function Card({ data }) {
 
   return (
     <>
-      <div className="bg-white rounded-xl box-shadow p-2">
+      <div className="bg-white rounded-xl box-shadow p-2 m-3">
         <div className="w-full relative cursor-pointer overflow-hidden">
           {/* <div className={`${isHovering?" opacity-100":" opacity-100"} transition-all duration-200` }>
             <div className="w-full h-full z-10 absolute rounded-lg "
