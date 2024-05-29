@@ -1,48 +1,70 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-function Banner({ text, image, scrollStart, position }) {
+const Banner = ({ text, image, bannerRef, inView }) => {
+  const location = useLocation();
   const imageRef = useRef(null);
+  const textRef = useRef(null);
+  const containerRef = useRef(null);
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
-    const scrollPosition = (scrollStart) => {
-      let scrollValue = window.scrollY;
-      if (scrollValue >= scrollStart) {
-        return scrollValue - scrollStart;
-      }
-      return 0;
-    };
-
     const handleScroll = () => {
-      if (imageRef.current && window.scrollY <= 800) {
-        imageRef.current.style.paddingBottom = `${
-          scrollPosition(scrollStart - 100) / 2
-        }px`;
-      }
+      setScrollPosition(window.pageYOffset);
     };
 
     window.addEventListener("scroll", handleScroll);
-  }, [scrollStart]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (inView && imageRef.current) {
+      imageRef.current.style.paddingBottom = `${scrollPosition / 3}px`;
+    }
+  }, [inView, scrollPosition]);
+
+  useEffect(() => {
+    if (inView && textRef.current && containerRef.current) {
+      textRef.current.style.transform = `translateY(${
+        containerRef.current.getBoundingClientRect().top - 83 / 1.5
+      }px)`;
+    }
+  }, [inView, scrollPosition]);
 
   return (
-    <div className="relative select-none">
+    <div className="relative select-none" ref={containerRef}>
       {image && (
         <img
           src={image}
           alt="Darwin"
           ref={imageRef}
-          className="inset-center absolute z-20 w-[80%] sm:w-[70%] md:w-[600px] pt-[420px] md:pt-[200px]"
+          className={`pointer-events-none inset-center absolute z-20 w-[80%] sm:w-[70%] md:w-[600px] pt-[420px] md:pt-[200px] ${
+            imageLoaded ? "visible" : "invisible"
+          }`}
+          onLoad={() => {
+            setImageLoaded(true);
+          }}
         />
       )}
-      <div className="relative overflow-hidden  h-[400px]  flex justify-center items-center background-blue">
+      <div
+        ref={bannerRef}
+        className="relative overflow-hidden h-[400px] flex  justify-center items-center bg-primary-100"
+      >
         <div
-          className="font-bold leading-tight text-blue uppercase z-10 text-[18vw] md:text-[13vw] transition-all"
-          style={{ animation: "float 4s ease-in-out infinite" }}
+          className={`font-bold leading-tight text-primary-900 uppercase z-10 text-[17vw] transition-all ease-linear duration-100 ${
+            location.pathname === "/" && "translate-y-72"
+          }`}
+          ref={textRef}
         >
           {text}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Banner;

@@ -1,8 +1,7 @@
 import React from "react";
+import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper";
-import { Link } from "react-router-dom";
-import { FaChevronRight } from "react-icons/fa";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -16,19 +15,22 @@ import {
   apexLegendsMapRotationData,
   snackwiseData,
   sagipData,
-  // theNeoArchitecstData,
+  portfolioData,
+  toDoItData,
+  theNeoArchitecstData,
 } from "../utils/data";
 import Banner from "../components/Banner";
 import Card from "../components/Card";
 
-function Projects({ standalone }) {
+const Projects = ({ standalone }) => {
+  const [bannerRef, inView] = useInView();
   return (
     <>
-      <div id="projects">
-        <Banner text="Projects" position="50% 180%" />
+      <div id="projects" className="mb-20">
+        <Banner text="Projects" bannerRef={bannerRef} inView={inView} />
         <div className=" relative -mt-16 z-50">
           {!standalone ? (
-            <div className="mx-10 mb-12">
+            <div className="mx-5 md:mx-10 mb-12">
               <Swiper
                 // onSwiper={setSwiperRef}
                 slidesPerView={3}
@@ -71,47 +73,28 @@ function Projects({ standalone }) {
                 </SwiperSlide>
 
                 <SwiperSlide>
-                  <Card data={apexLegendsMapRotationData} />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <Card data={snackwiseData} />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                  <Card data={sagipData} />
+                  <Card data={apexLegendsMapRotationData} blur={true} />
                 </SwiperSlide>
               </Swiper>
-              <div className="text-center text-xl font-semibold  leading-none m-5 ">
-                <Link to={"/projects"}>&lt;See More/&gt;</Link>
-              </div>
-              {/* <Link
-                to={"/projects"}
-                className="flex justify-end relative font-bold text-blue mx-2"
-              >
-                <hr className="w-full bg-black  inset-center" />
-                <div className="flex bg-white relative z-10 px-4">
-                  See more
-                  <FaChevronRight className=" mt-1 ml-1" />
-                </div>
-              </Link> */}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  mx-10 xl:mx-40">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  mx-10 xl:mx-10">
               <Card data={slvisualsData} />
               <Card data={resistorCalculatorData} />
               <Card data={aralinkData} />
               <Card data={pasahelpData} />
               <Card data={apexLegendsMapRotationData} />
               <Card data={snackwiseData} />
+              <Card data={portfolioData} />
               <Card data={sagipData} />
-              {/* <Card data={theNeoArchitecstData} /> */}
+              <Card data={toDoItData} />
+              <Card data={theNeoArchitecstData} />
             </div>
           )}
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Projects;

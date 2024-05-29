@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(emailRoutes);
+app.use("/api", emailRoutes);
 
 const port = process.env.PORT;
 app.listen(port, () => {

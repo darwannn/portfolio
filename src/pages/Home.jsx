@@ -6,16 +6,15 @@ import Projects from "../pages/Projects";
 
 import Contact from "../pages/Contact";
 
-
-function Home() {
+const Home = () => {
   return (
     <>
-      <Jumbotron  />
+      <Jumbotron />
       <About standalone={false} />
       <Projects standalone={false} />
       <Contact />
     </>
   );
-}
+};
 
 export default Home;

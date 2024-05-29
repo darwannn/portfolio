@@ -1,7 +1,11 @@
-
-
-.lg-backdrop, .lg-thumb-outer {opacity: 0.8 !important; }
+.lg-backdrop,
+.lg-thumb-outer {
+  opacity: 0.8 !important;
+}
 
 .lg-react-element {
-    display: none !important;
+  display: none !important;
+}
+.lg-thumb-outer {
+  background-color: rgb(0, 0, 0, 0) !important;
 }

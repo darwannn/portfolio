@@ -1,7 +1,7 @@
 import React from "react";
 import resume from "../assets/resume.pdf";
 
-function Resume() {
+const Resume = () => {
   return (
     <div className="w-full h-full">
       <iframe
@@ -11,6 +11,6 @@ function Resume() {
       ></iframe>
     </div>
   );
-}
+};
 
 export default Resume;
