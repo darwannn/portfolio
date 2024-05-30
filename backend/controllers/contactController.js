@@ -1,44 +1,53 @@
-const mg = require("mailgun-js");
 const dotenv = require("dotenv");
-
+const nodemailer = require("nodemailer");
 dotenv.config();
-
-const mailgun = () =>
-  mg({
-    apiKey: process.env.MAILGUN_API_KEY,
-    domain: process.env.MAILGUN_DOMIAN,
-  });
-
-const myemail = process.env.MY_EMAIL;
 
 const sendEmail = (req, res) => {
   const { name, email, subject, message } = req.body;
-
-  mailgun()
-    .messages()
-    .send(
-      {
-        from: `${name} ${email}`,
-        to: `${myemail}`,
-        subject: `${subject}`,
-        html: `<p>${message}</p>`,
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASSWORD,
       },
-      (error, body) => {
-        if (error) {
-          console.log(error);
-          res.status(500).send({
-            success: false,
-            message: "Error in sending email",
-          });
-        } else {
-          console.log(body);
-          res.send({
-            success: true,
-            message: "Email sent successfully",
-          });
-        }
+    });
+
+    const mailOptions = {
+      from: `${name}`,
+      to: process.env.MY_EMAIL,
+      subject: `${subject}`,
+      html: `
+      <div>
+        <p>${message}</p>
+        <br>
+        <p>${name}</p>
+        <p>${email}</p>
+      </div>`,
+    };
+    console.log(mailOptions);
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        res.send({
+          success: false,
+          message: "Error in sending email",
+        });
       }
-    );
+      console.log(info);
+      res.send({
+        success: true,
+        message: "Email sent successfully",
+      });
+    });
+  } catch (error) {
+    res.send({
+      success: true,
+      message: "Internal server error. Please try again later",
+    });
+  }
 };
 
 module.exports = {

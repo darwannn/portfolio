@@ -3,6 +3,6 @@ const router = express.Router();
 const { validateEmail } = require("../middleware/contactValidation");
 const contactController = require("../controllers/contactController");
 
-router.post("/api/email", validateEmail, contactController.sendEmail);
+router.post("/contact", validateEmail, contactController.sendEmail);
 
 module.exports = router;
