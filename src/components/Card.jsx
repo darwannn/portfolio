@@ -1,3 +1,4 @@
+import { MdOpenInNew } from "react-icons/md";
 import React, { useCallback, useRef } from "react";
 
 import LightGallery from "lightgallery/react";
@@ -34,7 +35,11 @@ const Card = ({ data, blur }) => {
             </div>
           </>
         )}
-        <div className="w-full relative cursor-pointer overflow-hidden h-72 bg-primary-900 rounded-lg ">
+        <div
+          className={`w-full relative overflow-hidden h-72 bg-primary-900 rounded-lg  ${
+            data.images && "cursor-pointer "
+          }`}
+        >
           <img
             className="w-full h-full z-0 rounded-lg hover:scale-105 transition-all duration-200 object-cover"
             src={data.cardImage}
@@ -46,8 +51,22 @@ const Card = ({ data, blur }) => {
           className="px-6 py-4 relative w-full"
           style={{ minHeight: "250px" }}
         >
-          <div className="font-bold text-3xl mb-1 text-primary-900 ">
+          <div
+            className={`flex font-bold text-3xl mb-1 text-primary-900 ${
+              data.webLink && "cursor-pointer"
+            } `}
+            onClick={() => {
+              if (data.webLink) {
+                window.open(data.webLink, "_blank");
+              }
+            }}
+          >
             {data.title}
+            {data.webLink && (
+              <span className="text-[16px] ml-1">
+                <MdOpenInNew />
+              </span>
+            )}
           </div>
           <div className="mb-5">{data.description}</div>
 
@@ -62,14 +81,14 @@ const Card = ({ data, blur }) => {
             );
           })}
 
-          {data.webLink !== "" && (
+          {data.githubLink !== "" && (
             <a
-              href={data.webLink}
+              href={data.githubLink}
               target="_blank"
-              className="flex  absolute bottom-0 right-0 px-6 py-4 font-bold text-primary-900  group "
+              className=" text-sm flex  absolute bottom-0 right-0 px-6 py-4 font-bold text-primary-900  group "
               rel="noreferrer"
             >
-              Live View
+              Source Code
               <FaChevronRight className=" mt-1 ml-0.5 group-hover:translate-x-1 transition-all" />
             </a>
           )}

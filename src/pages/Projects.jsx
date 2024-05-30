@@ -26,7 +26,7 @@ const Projects = ({ standalone }) => {
   const [bannerRef, inView] = useInView();
   return (
     <>
-      <div id="projects" className="mb-20">
+      <div id="projects" className="mb-10">
         <Banner text="Projects" bannerRef={bannerRef} inView={inView} />
         <div className=" relative -mt-16 z-50">
           {!standalone ? (
@@ -88,7 +88,7 @@ const Projects = ({ standalone }) => {
               <Card data={portfolioData} />
               <Card data={sagipData} />
               <Card data={toDoItData} />
-              <Card data={theNeoArchitecstData} />
+              {/* <Card data={theNeoArchitecstData} /> */}
             </div>
           )}
         </div>

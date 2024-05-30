@@ -50,6 +50,15 @@ body {
   z-index: 5;
 }
 
+/* LightGallery */
+.lg-prev {
+  background-color: transparent !important;
+}
+
+.lg-next {
+  background-color: transparent !important;
+}
+
 /* Toast */
 .Toastify__toast path {
   display: none !important;
