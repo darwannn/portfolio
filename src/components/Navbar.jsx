@@ -8,7 +8,7 @@ const Navbar = () => {
       style={{ zIndex: "1000" }}
     >
       <div className="flex items-center justify-center md:justify-between md:mx-5 lg:justify-between  lg:mx-5 xl:justify-between xl:mx-5 ">
-        <ul className="text-right w-full">
+        <ul className="text-center md:after:text-right w-full">
           <NavLink
             className={({ isActive }) =>
               `${

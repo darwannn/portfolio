@@ -48,7 +48,7 @@ const About = ({ standalone }) => {
               </div>
             </div> */}
             <div className="text-2xl font-bold mb-3 mt-10">Tech Stack 💻</div>
-            <div className="flex justify-start flex-wrap gap-3  ">
+            <div className="flex justify-center md:justify-start flex-wrap gap-3  ">
               <img
                 src={tailwindIcon}
                 alt=""
