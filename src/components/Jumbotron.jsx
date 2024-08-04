@@ -81,15 +81,11 @@ const Jumbotron = () => {
               <div className="text-7xl md:text-8xl font-bold leading-none text-primary-900">
                 DARWIN RAMOS
               </div>
-              {/* <div className="mt-2 mb-4 text-2xl">
+              <div className="mt-2 mb-4 text-2xl">
                 A recent graduate of BS in Information Technology, pursuing a career as a full-stack web
                 developer.
-              </div> */}
-              <div className="mt-2 mb-4 text-2xl">
-                I am a 4th-year BS Information Technology student at Bulacan
-                State University, pursuing a career as a full-stack web
-                developer.
               </div>
+              
               <Link
                 to={"/resume"}
                 target="_blank"
